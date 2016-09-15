@@ -10,7 +10,7 @@ memsql-ops start
 memsql-ops memsql-start --all
 memsql-ops memsql-list
 
-# # Load schema.sql into MemSQL
+# Load schema.sql into MemSQL
 $MYSQL < $THIS_DIR/schema.sql
 
 # Tail the logs to keep the container alive
