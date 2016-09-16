@@ -30,3 +30,12 @@ logs:
 .PHONY: exec
 exec:
 	docker exec -it ${IMAGE_NAME} /bin/bash
+
+
+################################################################
+# PRIVATE
+# Remove the following before this repo is ever moved to Github.
+
+.PHONY: upload-transform
+upload-transform: transform-tar
+	aws s3 cp transform.tar.gz s3://download.memsql.com/pipelines-demo-5.5.0-beta2/transform.tar.gz
