@@ -23,7 +23,7 @@ CREATE PIPELINE `twitter_pipeline` AS
 
     -- The "source" of this pipeline is a Kafka broker and topic.
     -- [TODO: give it a domain name. I'll do that once I lock it down.]
-    LOAD DATA KAFKA "ec2-54-210-221-141.compute-1.amazonaws.com:9092/tweets-json"
+    LOAD DATA KAFKA "public-kafka.memcompute.com:9092/tweets-json"
 
     -- The "sink" of this pipeline is a MemSQL Table. In this case, our
     -- destination table has a unique key, so we REPLACE rows if we get a new
@@ -56,15 +56,15 @@ CREATE TABLE `tweet_sentiment` (
 
 -- A MemSQL Pipeline with a transform
 CREATE PIPELINE `twitter_sentiment_pipeline` AS
-    LOAD DATA KAFKA "ec2-54-210-221-141.compute-1.amazonaws.com:9092/tweets-json"
+    LOAD DATA KAFKA "public-kafka.memcompute.com:9092/tweets-json"
 
     -- Here, we specify an executable that will transform each record that
     -- passes through the Pipeline. In this case, our transform function takes
     -- JSON blobs from Twitter and performs a sentiment analysis on the tweet
     -- text, returning a tweet ID and a score.
     WITH TRANSFORM (
-	"http://download.memsql.com/pipelines-demo-5.5.0-beta2/transform.tar.gz",
-	"transform/transform.py", "")
+        "http://download.memsql.com/pipelines-demo-5.5.0-beta2/transform.tar.gz",
+        "transform/transform.py", "")
 
     -- The transform can also be in the MemSQL master node's filesystem.
     --  WITH TRANSFORM (

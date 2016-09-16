@@ -39,3 +39,8 @@ exec:
 .PHONY: upload-transform
 upload-transform: transform-tar
 	aws s3 cp transform.tar.gz s3://download.memsql.com/pipelines-demo-5.5.0-beta2/transform.tar.gz
+
+.PHONY: push
+push: build
+	docker tag ${IMAGE_NAME} memsql/quickstart:5.5.0-beta2-demo
+	docker push memsql/quickstart:5.5.0-beta2-demo
