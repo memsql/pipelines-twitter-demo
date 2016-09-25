@@ -1,20 +1,48 @@
-MemSQL Pipelines Example
-========================
+MemSQL Pipelines Twitter Demo
+=============================
 
-`make run logs` starts a daemon MemSQL container derived from the
-`memsql/quickstart:5.5.0-beta2` Docker image.
+MemSQL has put together an example project which simulates an interesting
+analytics use case using MemSQL Pipelines.
 
-The container runs `schema.sql`, which creates two pipelines and two destination
-tables. These pipelines read from the public Kafka endpoint at
-`public-kafka.memcompute.com`, using a Pipelines transform tarball hosted in S3.
+To run the demo locally you will need to have Docker installed and the docker
+client available. The demo runs two containers: one for Apache Kafka and one
+for MemSQL.
 
-Use `make mysql` to inspect the database. Both pipelines should be running, and
-both tables should be steadily increasing in size. See `schema.sql` for a
-description of what's happening.
 
-Example query:
+Example Usage
+-------------
+
+```bash
+# Start the MemSQL container on your machine
+make run-memsql
+
+# Open up the Pipelines page on MemSQL Ops
+open http://localhost:9000/data/pipelines
+
+# Open a MemSQL client for the local MemSQL container
+make sql-console
+
+# Stop the MemSQL container when you are done
+make stop-memsql
 ```
-SELECT text, positive, neutral, negative
-    FROM tweets t JOIN tweet_sentiment ts ON t.id = ts.id
-    LIMIT 10 \G
+
+
+Analysis
+--------
+
+Use `make sql-console` to inspect the database. Both pipelines should be
+running, and both tables should be steadily increasing in size. See `schema.sql`
+for a description of what's happening.
+
+The following query will retrieve 10 random results along with their scoring.
+
+```sql
+SELECT
+    REPLACE(text, "\n", "") AS text,
+    positive, neutral, negative
+FROM
+    tweets t
+    JOIN tweet_sentiment ts ON t.id = ts.id
+ORDER BY RAND()
+LIMIT 10;
 ```

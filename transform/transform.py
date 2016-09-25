@@ -5,13 +5,17 @@ import os
 import struct
 import sys
 
-# Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for
-# Sentiment Analysis of Social Media Text. Eighth International Conference on
-# Weblogs and Social Media (ICWSM-14). Ann Arbor, MI, June 2014.
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
+# dependencies are stored in a folder called python_deps
+# relative to this script. This is setup by the Dockerfile.
 
 SCRIPT_DIR = os.path.join(os.path.dirname(__file__))
+sys.path.append(os.path.join(SCRIPT_DIR, "python_deps"))
+
+# Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious
+# Rule-based Model for Sentiment Analysis of Social Media Text.
+# Eighth International Conference on Weblogs and Social Media
+# (ICWSM-14). Ann Arbor, MI, June 2014.
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # This class uses a file that we included in the transform tarball that we put
 # in the 'WITH TRANSFORM' statement.

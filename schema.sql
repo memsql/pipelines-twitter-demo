@@ -63,13 +63,13 @@ CREATE PIPELINE `twitter_sentiment_pipeline` AS
     -- JSON blobs from Twitter and performs a sentiment analysis on the tweet
     -- text, returning a tweet ID and a score.
     WITH TRANSFORM (
-        "http://download.memsql.com/pipelines-demo-5.5.0-beta2/transform.tar.gz",
-        "transform/transform.py", "")
+        "file://localhost/transform.tar.gz",
+        "transform.py", "")
 
     -- The transform can also be in the MemSQL master node's filesystem.
-    --  WITH TRANSFORM (
-        --  "file:///pipelines-example/transform.tar.gz",
-	--  "transform/transform.py", "")
+    -- WITH TRANSFORM (
+    --     "http://download.memsql.com/pipelines-twitter-demo/transform.tar.gz",
+    --     "transform.py", "")
 
     REPLACE INTO TABLE `tweet_sentiment`
     FIELDS TERMINATED BY "\t"
