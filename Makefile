@@ -9,7 +9,7 @@ run-memsql: schema.sql transform.tar.gz
 		--name ${MEMSQL_CONTAINER} \
 		-v ${PWD}/schema.sql:/schema.sql \
 		-v ${PWD}/transform.tar.gz:/transform.tar.gz \
-		memsql/quickstart:5.5.0-beta5
+		memsql/quickstart:5.5.0-beta6
 
 
 .PHONY: stop-memsql
@@ -21,7 +21,7 @@ stop-memsql: schema.sql transform.tar.gz
 sql-console:
 	docker run \
 		-it --link ${MEMSQL_CONTAINER}:memsql \
-		memsql/quickstart:5.5.0-beta5 \
+		memsql/quickstart:5.5.0-beta6 \
 		memsql-shell
 
 
