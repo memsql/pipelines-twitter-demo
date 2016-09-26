@@ -9,7 +9,7 @@ run-memsql: schema.sql
 		-d -p 3306:3306 -p 9000:9000 \
 		--name ${MEMSQL_CONTAINER} \
 		-v ${PWD}/schema.sql:/schema.sql \
-		memsql/quickstart:5.5.0-beta6
+		memsql/quickstart:5.5.0
 
 
 .PHONY: run-kafka
@@ -37,7 +37,7 @@ run-memsql-local: schema.sql
 		--link ${KAFKA_CONTAINER}:kafka \
 		-v ${PWD}/scripts/start_with_local_kafka.sh:/start.sh \
 		-v ${PWD}/schema.sql:/schema.sql.tpl \
-		memsql/quickstart:5.5.0-beta6 /start.sh
+		memsql/quickstart:5.5.0 /start.sh
 
 
 .PHONY: stop-memsql
@@ -49,7 +49,7 @@ stop-memsql:
 sql-console:
 	docker run \
 		-it --link ${MEMSQL_CONTAINER}:memsql \
-		memsql/quickstart:5.5.0-beta6 \
+		memsql/quickstart:5.5.0 \
 		memsql-shell
 
 
