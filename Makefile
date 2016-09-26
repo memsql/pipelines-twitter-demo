@@ -4,12 +4,11 @@ TRANSFORM_BUILDER = pipelines-twitter-demo-transform
 
 
 .PHONY: run-memsql
-run-memsql: schema.sql transform.tar.gz
+run-memsql: schema.sql
 	docker run \
 		-d -p 3306:3306 -p 9000:9000 \
 		--name ${MEMSQL_CONTAINER} \
 		-v ${PWD}/schema.sql:/schema.sql \
-		-v ${PWD}/transform.tar.gz:/transform.tar.gz \
 		memsql/quickstart:5.5.0-beta6
 
 
@@ -31,14 +30,13 @@ stop-kafka:
 
 
 .PHONY: run-memsql-local
-run-memsql-local: schema.sql transform.tar.gz
+run-memsql-local: schema.sql
 	docker run \
 		-d -p 3306:3306 -p 9000:9000 \
 		--name ${MEMSQL_CONTAINER} \
 		--link ${KAFKA_CONTAINER}:kafka \
 		-v ${PWD}/scripts/start_with_local_kafka.sh:/start.sh \
 		-v ${PWD}/schema.sql:/schema.sql.tpl \
-		-v ${PWD}/transform.tar.gz:/transform.tar.gz \
 		memsql/quickstart:5.5.0-beta6 /start.sh
 
 
@@ -55,6 +53,8 @@ sql-console:
 		memsql-shell
 
 
+# You can use this target to build your own transform and upload it somewhere
+# (or mount it in the container)
 transform.tar.gz: transform
 	docker build -t ${TRANSFORM_BUILDER} transform
 	@-docker rm ${TRANSFORM_BUILDER} >/dev/null 2>&1
