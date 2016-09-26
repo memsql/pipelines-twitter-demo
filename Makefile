@@ -1,4 +1,5 @@
 MEMSQL_CONTAINER = twitter-demo-memsql
+KAFKA_CONTAINER = twitter-demo-kafka
 TRANSFORM_BUILDER = pipelines-twitter-demo-transform
 
 
@@ -12,8 +13,37 @@ run-memsql: schema.sql transform.tar.gz
 		memsql/quickstart:5.5.0-beta6
 
 
+.PHONY: run-kafka
+run-kafka:
+	docker run --name ${KAFKA_CONTAINER} \
+		-d -p 9092:9092 -p 2181:2181 \
+		-e PRODUCE_TWITTER=1 \
+		-e TWITTER_CONSUMER_KEY \
+		-e TWITTER_CONSUMER_SECRET \
+		-e TWITTER_ACCESS_TOKEN \
+		-e TWITTER_ACCESS_SECRET \
+		memsql/kafka
+
+
+.PHONY: stop-kafka
+stop-kafka:
+	docker rm -f ${KAFKA_CONTAINER}
+
+
+.PHONY: run-memsql-local
+run-memsql-local: schema.sql transform.tar.gz
+	docker run \
+		-d -p 3306:3306 -p 9000:9000 \
+		--name ${MEMSQL_CONTAINER} \
+		--link ${KAFKA_CONTAINER}:kafka \
+		-v ${PWD}/scripts/start_with_local_kafka.sh:/start.sh \
+		-v ${PWD}/schema.sql:/schema.sql.tpl \
+		-v ${PWD}/transform.tar.gz:/transform.tar.gz \
+		memsql/quickstart:5.5.0-beta6 /start.sh
+
+
 .PHONY: stop-memsql
-stop-memsql: schema.sql transform.tar.gz
+stop-memsql:
 	docker rm -f ${MEMSQL_CONTAINER}
 
 
