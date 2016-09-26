@@ -58,8 +58,9 @@ open http://localhost:9000/data/pipelines
 # Open a MemSQL client for the local MemSQL container
 make sql-console
 
-# Stop the MemSQL container when you are done
+# Stop the containers when you are done
 make stop-memsql
+make stop-kafka
 ```
 
 
