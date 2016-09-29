@@ -17,6 +17,7 @@ CREATE TABLE `tweets` (
     `text` AS `tweet`::$text PERSISTED TEXT,
     `retweet_count` AS `tweet`::%retweet_count PERSISTED INT,
     candidate as CASE WHEN (`text` LIKE '%illary%') THEN 'Clinton' WHEN (`text` LIKE '%linton%') THEN 'Clinton' WHEN (`text` LIKE '%onald%') THEN 'Trump' WHEN (`text` LIKE '%rump%') THEN 'Trump' ELSE 'Unknown' END PERSISTED TEXT,
+    created as FROM_UNIXTIME(`tweet`::$created_at) PERSISTED DATETIME,
 
     KEY(id) USING CLUSTERED COLUMNSTORE,
     SHARD KEY(id)
