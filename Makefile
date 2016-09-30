@@ -50,7 +50,7 @@ sql-console:
 	docker run \
 		-it --link ${MEMSQL_CONTAINER}:memsql \
 		memsql/quickstart:5.5.0 \
-		memsql-shell
+		memsql-shell example
 
 
 # You can use this target to build your own transform and upload it somewhere
