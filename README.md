@@ -3,8 +3,7 @@ MemSQL Pipelines Twitter Demo
 
 Here is an example project that demonstrates an interesting
 analytics use case using MemSQL Pipelines. Specifically, this demo captures
-tweets and retweet counts for posts pretaining to Hillary and Trump, 
-the 2016 US presidential nominees.  
+tweets and retweet counts for posts pertaining to the 30 NBA teams.
 
 To run the demo you will need to have Docker installed and the docker
 client available.
@@ -71,16 +70,16 @@ make stop-kafka
 Running Analytical Queries on the Data Set
 ------------------------------------------
 
-Use `make sql-console` to open a SQL prompt into the MemSQL Database 
+Use `make sql-console` to open a SQL prompt into the MemSQL Database
 that is running the twitter pipelines. You should notice two pipelines running -
-`twitter_pipeline` and `twitter_sentiment_pipeline`. You should also notice 
+`twitter_pipeline` and `twitter_sentiment_pipeline`. You should also notice
 two tables where these pipelines store data -
-`tweets` and `tweet_sentiment`, which are steadily increasing in size. 
+`tweets` and `tweet_sentiment`, which are steadily increasing in size.
 See `schema.sql`to see exactly how the pipelines and tables are defined.
 
-Within the MemSQL Database, you run simple analytical queries on 
-the `tweets` and `tweet_sentiment` tables. For example, 
-the following query will retrieve 10 random tweets about Hillary or Trump
+Within the MemSQL Database, you run simple analytical queries on
+the `tweets` and `tweet_sentiment` tables. For example,
+the following query will retrieve 10 random tweets about any team
 and show the tweet's sentiment - positive, negative or neutral.
 
 ```sql
